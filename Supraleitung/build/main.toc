@@ -1,0 +1,5 @@
+\selectlanguage *{german}
+\beamer@sectionintoc {1}{Theorie}{3}{0}{1}
+\beamer@sectionintoc {2}{Durchführung}{4}{0}{2}
+\beamer@sectionintoc {3}{Auswertung}{5}{0}{3}
+\beamer@sectionintoc {4}{Literatur}{6}{0}{4}
