@@ -1,0 +1,78 @@
+% This example is meant to be compiled with lualatex or xelatex
+% The theme itself also supports pdflatex
+\PassOptionsToPackage{unicode}{hyperref}
+\documentclass[aspectratio=1610, 9pt]{beamer}
+
+% Load packages you need here
+\usepackage{polyglossia}
+\setmainlanguage{german}
+
+\usepackage{csquotes}
+
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+
+\usepackage{hyperref}
+\usepackage{bookmark}
+
+% Literaturverzeichnis
+\usepackage[
+  backend=biber,
+]{biblatex}
+% Quellendatenbank
+\addbibresource{../bib/lit.bib}
+\addbibresource{../bib/programme.bib}
+\addbibresource{../bib/versuche.bib}
+
+% load the theme after all packages
+
+\usetheme[
+  showtotalframes, % show total number of frames in the footline
+  % dark, % optional dark theme, uncomment to use
+]{tudo}
+
+% Put settings here, like
+\unimathsetup{
+  math-style=ISO,
+  bold-style=ISO,
+  nabla=upright,
+  partial=upright,
+  mathrm=sym,
+}
+
+\title{Supraleitung}
+\author[M.~Koch \and J.~Lamers]{
+ Max Koch\\%
+ \href{mailto:max.koch@tu-dortmund.de}{max.koch@tu-dortmund.de}%
+ \and%
+ Johannes Lamers\\%
+\href{mailto:johannes.lamers@edu.edu}{johannes.lamers@udo.edu}%
+ }
+\institute[Kurzform Lehrstuhl]{Names des Lehrstuhls}
+%\titlegraphic{\includegraphics[width=0.7\textwidth]{images/tudo-title-2.jpg}}
+
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}{Einführung}
+  \tableofcontents
+\end{frame}
+
+
+
+\input{content/theorie.tex}
+\input{content/durchführung.tex}
+\input{content/auswertung.tex}
+
+
+\section{Literatur}
+\begin{frame}{Literatur}
+\printbibliography{}
+\end{frame}
+
+
+\end{document}
