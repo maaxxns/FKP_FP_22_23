@@ -15,14 +15,35 @@ def abw(exact,approx):
 
 
 #####
+#Temperaturmessgerät von T in R (-200 bis 0 Celsius):
+#A = 3.9083e-3 #°C^-1
+#B = -5.7750e-7 #°C^-2
+#C = -4.1830e-12 #°C^-4
+
+def R_func(T, A = 3.9083e-3,B = -5.7750e-7,C = -4.1830e-12,D=0):
+    return (1000*(1+A*T+B*T**2+C*(T-100)*T**3)) + D
+def T_func(R, A, B, C, D):
+    return (A*R**3+B*R**2+C*R**1+D)
+
 #Temperaturmessgerät von R in T (-200 bis 0 Celsius):
-A = 3.9083e-3 #°C^-1
-B = -5.7750e-7 #°C^-2
-C = -4.1830e-12 #°C^-4
+T = np.linspace(-200,0,100)
+R = R_func(T)
 
-def R_func(T):
-    return (1000*(1+A*T+B*T**2+C*(T-100)*T**3))
+prms, cov = curve_fit(T_func, R, T)
 
+
+
+#Inverse Kalibrationskurve
+
+plt.plot(R[::10], T[::10], 'x')
+plt.plot(R, T_func(R, *prms))
+plt.grid()
+#R = np.array([562, 510, 536, 544, 491])
+print('prms', *prms)
+#print('Temperature', R_func(R, *prms))
+#print(f'T(R = {np.mean(R)}) = {R_func(np.mean(R), *prms)}')
+plt.savefig('build/Kalib_inverse.pdf')
+plt.clf()
 
 
 ##Kalibrationskurve
@@ -42,19 +63,18 @@ def R_func(T):
 ########
 #ii)
 #Bestimmung der kritischen Temperatur durch Meißner-Ochsenfeld-Effekt
-#Zeit, Spannung, Widerstand, Strom
 #Zeit wird jeweils auf 0 gesetzt
 #Messwert, bei dem der Magnet fällt: kritX
 #Messung 1
-t1, V1 ,  R1 , I1 = np.genfromtxt('2023/Krit_Meiß/M1.txt', delimiter=',', unpack=True)
+t1,  R1 = np.genfromtxt('2023/Krit_Meiß/M1.txt', delimiter=' ', unpack=True)
 t1 = t1-np.min(t1)
 krit1 = 51
 #Messung 2
-t2, V2 ,  R2 , I2 = np.genfromtxt('2023/Krit_Meiß/M2.txt', delimiter=',', unpack=True)
+t2, R2  = np.genfromtxt('2023/Krit_Meiß/M2.txt', delimiter=' ', unpack=True)
 t2 = t2-np.min(t2)
 krit2 = 38
 #Messung 3
-t3, V3 ,  R3 , I3 = np.genfromtxt('2023/Krit_Meiß/M3.txt', delimiter=',', unpack=True)
+t3,   R3 = np.genfromtxt('2023/Krit_Meiß/M3.txt', delimiter=' ', unpack=True)
 t3 = t3-np.min(t3)
 krit3 = 66
 
