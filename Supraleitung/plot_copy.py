@@ -8,6 +8,7 @@ from uncertainties.unumpy import uarray
 from uncertainties import unumpy as unp
 from uncertainties.unumpy import (nominal_values as noms,std_devs as stds)
 from scipy.stats import sem
+from scipy.constants import mu_0
 
 def abw(exact,approx):
     return (exact-approx)*100/exact  #Abweichnung
@@ -129,11 +130,17 @@ plt.clf()
 
 
 #B-Felder der Magneten
+#Messdaten einlesen in mm und mT
 rh, Bh = np.genfromtxt('2023/Hall_H.txt', delimiter=' ', unpack=True)
 rs, Bs = np.genfromtxt('2023/Hall_S.txt', delimiter=' ', unpack=True)
 
-def B_func(r,A,B,C):
-    return (A*B**2/((B**2+r**2)**(3/2)))+C
+#Strom einer Leiterschleife bei bekanntem B-Feld
+def I_func(B,r,R):
+    return (B*2/mu_0*(R**2+r**2)**(3/2)/R**2)
+
+#B Feld einer Leiterschleife
+def B_func(r,A,R,B_0):
+    return (A*R**2/((R**2+r**2)**(3/2)))+B_0
 
 h_prms ,h_cov = curve_fit(B_func, rh, Bh)
 s_prms ,s_cov = curve_fit(B_func, rs, Bs)
@@ -157,6 +164,17 @@ plt.grid()
 plt.legend()
 plt.savefig('build/SMag.pdf')
 plt.clf()
+
+
+
+####
+#v)
+#Messwert
+B = 0.000777 #T
+r = 0.001 #m ()geschätze Höhe der Messung
+R = 0.015/2 #m
+I = I_func(B,r,R)
+print('I in Ring:', I)
 
 
 ##Curvefit
