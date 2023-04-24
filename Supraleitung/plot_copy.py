@@ -165,13 +165,18 @@ plt.legend()
 plt.savefig('build/SMag.pdf')
 plt.clf()
 
-
+#Abstand ist geschätzt
+r_abst = 3 #mm
+Bs = B_func(r_abst,*s_prms)
+Bh = B_func(r_abst,*h_prms)
+print('B_s:',Bs,'mT')
+print('B_h:',Bh,'mT')
 
 ####
 #v)
 #Messwert
 B = 0.000777 #T
-r = 0.001 #m ()geschätze Höhe der Messung
+r = 0.001 #m (geschätze Höhe der Messung)
 R = 0.015/2 #m
 I = I_func(B,r,R)
 print('I in Ring:', I)
